@@ -1,0 +1,1 @@
+This program can translate input amino acid sequnece to DNA sequence according to organism codon usage. I divide this program into three parts: amino acid input, trans function and codon usage datebase. 
