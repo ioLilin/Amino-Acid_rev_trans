@@ -38,16 +38,20 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chineseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Copy = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 48);
+            this.label1.Location = new System.Drawing.Point(9, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(127, 15);
             this.label1.TabIndex = 0;
@@ -56,7 +60,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(521, 48);
+            this.label2.Location = new System.Drawing.Point(522, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(167, 15);
             this.label2.TabIndex = 1;
@@ -64,18 +68,18 @@
             // 
             // InputBox
             // 
-            this.InputBox.Location = new System.Drawing.Point(12, 72);
+            this.InputBox.Location = new System.Drawing.Point(12, 57);
             this.InputBox.Multiline = true;
             this.InputBox.Name = "InputBox";
-            this.InputBox.Size = new System.Drawing.Size(489, 547);
+            this.InputBox.Size = new System.Drawing.Size(489, 565);
             this.InputBox.TabIndex = 2;
             // 
             // OutputBox
             // 
-            this.OutputBox.Location = new System.Drawing.Point(515, 72);
+            this.OutputBox.Location = new System.Drawing.Point(515, 57);
             this.OutputBox.Multiline = true;
             this.OutputBox.Name = "OutputBox";
-            this.OutputBox.Size = new System.Drawing.Size(461, 547);
+            this.OutputBox.Size = new System.Drawing.Size(461, 565);
             this.OutputBox.TabIndex = 2;
             // 
             // Send
@@ -120,9 +124,33 @@
             // 
             // settingToolStripMenuItem
             // 
+            this.settingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.languageToolStripMenuItem});
             this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
             this.settingToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
             this.settingToolStripMenuItem.Text = "Setting";
+            // 
+            // languageToolStripMenuItem
+            // 
+            this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.englishToolStripMenuItem,
+            this.chineseToolStripMenuItem});
+            this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.languageToolStripMenuItem.Text = "Language";
+            // 
+            // englishToolStripMenuItem
+            // 
+            this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            this.englishToolStripMenuItem.Text = "English";
+            this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
+            // 
+            // chineseToolStripMenuItem
+            // 
+            this.chineseToolStripMenuItem.Name = "chineseToolStripMenuItem";
+            this.chineseToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            this.chineseToolStripMenuItem.Text = "Chinese";
             // 
             // helpToolStripMenuItem
             // 
@@ -139,23 +167,36 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // label3
+            // comboBox1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(126, 33);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(687, 15);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Translate your amino aci sequnece to DNA sequence according to condon usage in Ec" +
-    "oli.";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "DNA to Protein",
+            "Protein to DNA"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 628);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(178, 23);
+            this.comboBox1.TabIndex = 7;
+            this.comboBox1.Text = "Choose a function";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // Copy
+            // 
+            this.Copy.Location = new System.Drawing.Point(821, 628);
+            this.Copy.Name = "Copy";
+            this.Copy.Size = new System.Drawing.Size(65, 25);
+            this.Copy.TabIndex = 8;
+            this.Copy.Text = "copy";
+            this.Copy.UseVisualStyleBackColor = true;
+            this.Copy.Click += new System.EventHandler(this.Copyclick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(998, 665);
-            this.Controls.Add(this.label3);
+            this.ClientSize = new System.Drawing.Size(998, 680);
+            this.Controls.Add(this.Copy);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.Send);
             this.Controls.Add(this.OutputBox);
@@ -188,7 +229,11 @@
         private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chineseToolStripMenuItem;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button Copy;
     }
 }
 

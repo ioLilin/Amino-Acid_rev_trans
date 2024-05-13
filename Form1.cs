@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,30 +24,49 @@ namespace Bio_helper
             OutputBox.Clear();
             InputBox.Clear();
         }
-        
+
         private void button1_Click(object sender, EventArgs e)
         {
             var Trans = new Trans();
             Input = InputBox.Text;
             Input = Input.ToUpper();
-
-            List<string> dnaseq = new List<string>();
-
-            foreach (char x in Input)
+            string result1 = "";
+           
+            if (comboBox1.Text == "Protein to DNA")
             {
-                string d = Trans.TRANS(x);
-                dnaseq.Add(d);
+                 List<string> dnaseq = new List<string>();
+
+                    foreach (char x in Input)
+                    {
+                        string d = Trans.TRANS(x);
+                        dnaseq.Add(d);
+                    }
+
+                 _ = dnaseq.ToArray();
+
+                 result1 = string.Join("", dnaseq);                 
             }
 
-            _ = dnaseq.ToArray();
-            string result = string.Join("", dnaseq);
-          
-            OutputBox.Text = result;
-        }
-        public string GetInputValue()
-        {
-            return Input;
-        }
+            if (comboBox1.Text == "DNA to Protein")
+            {
+                string proteinseq = "";
+
+                for (int i = 0; i < Input.Length; i += 3)
+                {
+                    string d = Input.Substring(i, Math.Min(3, Input.Length - i));
+                    char c = Trans.TRSL(d);
+                    proteinseq += c;
+                }
+
+                _ = proteinseq.ToArray();
+
+                result1 = string.Join("", proteinseq);
+
+            }
+
+            OutputBox.Text = result1;
+            
+        }     
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -60,17 +80,22 @@ namespace Bio_helper
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form dlg1 = new Form();
-            dlg1.FormBorderStyle = FormBorderStyle.FixedDialog;
-            dlg1.Size = new Size(700, 300);
+            Form dlg1 = new Form
+            {
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Size = new Size(700, 300)
+            };
 
-            Label lbabout = new Label();
-            lbabout.Text = "Thanks for using this program!\n\nThis program is free and open source. " +
+            Label lbabout = new Label
+            {
+                Text = "Thanks for using this program!\n\nThis program is free and open source. " +
                 "\n\nIf you have any questions or suggestions, please contact me at Github:https://github.com/ioLilin!" +
-                "\n\n感谢使用本程序！本程序为免费开源软件，如果您有任何问题或建议，请通过Github联系我:https://github.com/ioLilin!\n\nGYQ";               
-           // lbabout.Location = new Point(dlg1.Width / 2 - lbabout.Width / 2, dlg1.Height / 2 - lbabout.Height / 2);
-            lbabout.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lbabout.AutoSize = true;
+                "\n\n感谢使用本程序！本程序为免费开源软件，如果您有任何问题或建议，请通过Github联系我:https://github.com/ioLilin!\n\nGYQ",
+
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+                AutoSize = true
+            };
+
 
             // 将Label添加到对话框的Controls集合中
             dlg1.Controls.Add(lbabout);
@@ -82,12 +107,32 @@ namespace Bio_helper
         {
 
         }
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Copyclick(object sender, EventArgs e)
+        {
+            Clipboard.SetText(OutputBox.Text);
+        }
     }
 
 
     public class Trans
-    {
-   
+    {       
+
         public string TRANS(char a)
         {
             string[] b = new string[0];
@@ -164,7 +209,76 @@ namespace Bio_helper
             string c = b[randomIndex];     // 将随机选中的字符串赋值给字符串 c
             return c;
         }
-
+        public char TRSL(string ps)
+        {
+            char fc = ps.Substring(0, 1)[0]; // 获取第一个字符
+            char sc = ps.Substring(1, 1)[0]; // 获取第二个字符
+            char tc = ps.Substring(2, 1)[0]; // 获取第三个字符
+            char AA = '*';
+                        
+            if(fc == 'A')
+            {
+                if(sc == 'A')
+                {
+                    if(tc == 'A' || tc == 'G')  AA = 'K'; 
+                    if(tc == 'C' || tc == 'T')  AA = 'N';
+                }
+                if(sc == 'T')
+                {
+                    if(tc == 'A' || tc == 'C' || tc == 'T')  AA = 'I';
+                    if(tc == 'G')  AA = 'M';
+                }
+                if(sc == 'C')  AA = 'T';
+                if(sc == 'G')
+                {
+                    if (tc == 'C' || tc == 'T') AA = 'S';
+                    if (tc == 'A' || tc == 'G') AA = 'R';
+                }
+            }
+            if (fc == 'T')
+            {
+                if (sc == 'A')
+                {
+                    if (tc == 'C' || tc == 'T') AA = 'Y';
+                    if (tc == 'A' || tc == 'G') AA = '*';
+                }
+                if (sc == 'T')
+                {
+                    if (tc == 'C' || tc == 'T') AA = 'F';
+                    if (tc == 'A' || tc == 'G') AA = 'L';
+                }
+                if (sc == 'C') AA = 'S';
+                if (sc == 'G')
+                {
+                    if (tc == 'C' || tc == 'T') AA = 'C';
+                    if (tc == 'G') AA = 'W';
+                    if (tc == 'A') AA = '*';
+                }
+            }
+            if (fc == 'C')
+            {
+                if (sc == 'A')
+                {
+                    if (tc == 'C' || tc == 'T') AA = 'H';
+                    if (tc == 'A' || tc == 'G') AA = 'Q';
+                }
+                if (sc == 'T') AA = 'L';
+                if (sc == 'C') AA = 'P';
+                if (sc == 'G') AA = 'R';
+            }
+            if (fc == 'G')
+            {
+                if (sc == 'A')
+                {
+                    if (tc == 'C' || tc == 'T') AA = 'D';
+                    if (tc == 'A' || tc == 'G') AA = 'E';
+                }
+                if (sc == 'T') AA = 'V';
+                if (sc == 'C') AA = 'A';
+                if (sc == 'G') AA = 'G';
+            }     
+              return AA;
+        }
     }
 
     public class Condon
